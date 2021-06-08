@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>关于我们</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+		<link rel="stylesheet" href="mui/css/mui.min.css">
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/index.css">
+	</head>
+	<body>
+		<!-- <header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">规则</h1>
+		</header> -->
+		<div class="mui-content l_word_box">
+			<div class="mui-scroll">
+				<div class="l_rule_box">
+				</div>
+			</div>
+		</div>
+		<script src="js/zepto.js"></script>
+		<script src="mui/js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			$(function() {
+				let lg = localStorage.getItem('lang_type') || 'zh',
+					html = "";
+				mui.showLoading(lg == 'zh' ? '正在加载...' : 'loading...', "div");
+				if (lg == 'zh') {
+					html =
+						`<h3 class="l_title_content">关于我们</h3>
+					<p>Spade A
+						技术团队是一群来自暗网区块链技术极客去中心化组织，致力于为区块链参与者建立一个安全、透明、公平的投资环境。通过智能合约DAPP的新模式，将制度规则写入不可篡改的以太坊公链ETH智能合约中，打造一个人人可参与真正去中心化的公平公正公开公认的财富社区！
+					</p>`;
+				} else {
+					html =
+						`<h3 class="l_title_content">About us</h3>
+					<p>Spade A technology team is a group of decentralized organizations from the dark network blockchain technology geeks, committed to building a safe, transparent and fair investment environment for blockchain participants. Through the new DAPP model of smart contract, the system rules are written into the tamper proof eth smart contract of Ethereum public chain, so as to create a wealth community where people can participate in the real decentralization, fairness, justice and public recognition!
+					</p>`;
+				}
+				$(".l_rule_box").html(html);
+				setTimeout(function() {
+					mui.hideLoading();
+				}, 500);
+			})
+		</script>
+	</body>
+</html>

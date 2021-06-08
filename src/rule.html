@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>规则</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+		<link rel="stylesheet" href="mui/css/mui.min.css">
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/index.css">
+	</head>
+	<body>
+		<div class="mui-content l_word_box">
+			<div class="mui-scroll">
+				<div class="l_rule_box">
+					
+				</div>
+			</div>
+		</div>
+		<script src="js/zepto.js"></script>
+		<script src="js/init.js"></script>
+		<script src="mui/js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+				let lg = localStorage.getItem('lang_type') || 'zh';
+				mui.showLoading(lg == 'zh' ? '正在加载...' : 'loading...', "div");
+					html = "";
+				if (lg == 'zh') {
+					html =
+						`<label>【制度解析】</label>
+					<p>参与标准： V1:1-5.V2:6-10.V3:11-15 </p>
+					<label>【参与周期】</label>
+					<p>体验合约：1ETH—5ETH 一天2%</p>
+					<p>周期7天7% 每天1%</p>
+					<p>周期16天24% 每天1.5%</p>
+					<p>每天30天60% 每天2%</p>
+					<p>周期内增加投入只能在同一周期内进行，更改投资周期需要等周期结束之后才可以进行。</p>
+					<label>【节点奖励】</label>
+					<p>V1：一代</p>
+					<p>V2：两代</p>
+					<p>V3：无限代</p>
+					<label>【团队奖励】</label>
+					<p>一代 50%</p>
+					<p>二代20%</p>
+					<p>三代10%</p>
+					<p>4-10代5%</p>
+					<p>11代以上1%</p>
+					<label>【安保基金】</label>
+					<p>所有玩家参与周期内需启动最大入股额10%安保机制，下一周期进入即释放上一周期的10%！</p>
+					<label>【创世基金】</label>
+					<p>团队收益的10%兑换成为SPE生态权益通证，与开发者团队共建生态。达到100万SPE即可成为平台创世者，共享平台10%红利！ SPE可以参与平台游戏应用，通过游戏转化为
+						SPA.SPA可在交易大盘自由买卖交易，同时SPA亦可以进入游戏平台使用，权益值等同于SPE，SPE在应用中作为燃料使用，但权益值只会叠加累积！</p>
+					<label>【权益值获取方式】</label>
+					<p>权益值获取方式有三种：第一种通过市场获取，SPE数量等同于权益值，第二种通过游戏获取 第三种通过SPA 兑换获得 。</p>
+					<label>【幸运基金】</label>
+					<p>团队收益10%进入幸运奖池，参与游戏用户，末尾100名用户，享有平台动态收益10%的奖励！最后一名享受投资额10倍收益，倒数第二到第一百平分剩余奖池金额！</p>
+					<label>【游戏应用】</label>
+					<p>1：公开公平公正的玩家与玩家之间的休闲游戏！</p>
+					<p>2：公开公平公正的竞技类游戏——Spade A联盟！</p>
+					<label>【博彩应用】</label>
+					<p>1： 博彩区块链平台
+						<p>2：SPA 所有玩家所产生SPA权益通证 可在平台上参与所有游戏！</p>
+						<label>【运维基金】</label>
+						<p>入股金额的3%会自动划拨到专项账户，其中2%用于生态应用开发及建设，1%用于创始团队奖励，生态应用每月收益的80%进入合约进行用户分红！</p>
+						<label>【奖励发放】</label>
+						<p>分红及节点奖励为自动发放，金额大于等于0.1即发放，否则会在账户中累积，大于等于0.1后再发放！</p>
+						<label>【重启机制】</label>
+						<p>如果合约余额为0，将自动启动重启机制，重启时所有人账户都会归0，但节点关系不变，并且开始新一轮游戏！</p>
+						<label>【社区投票】</label>
+						<p>2.0即会推出算力挖矿，平台用户通过社区投票使用SPE作为使用燃料，参与报名的社区旗下会员参与的越多票数越高，所获得的算力更多，同时收益也会更多！个人收益预估在0.5%，社区收益预计估在1%～10%！</p>
+
+						<label>【清零机制】</label>
+						<p>账户出局完成超过24小时没有复投，权益值归零同时不享受任何动态收益！</p>
+						<label>【通兑机制】</label>
+						<p>游戏上线完成，我们会根据用户使用习惯开启通兑</p>
+						<p>SPA可兑换ETH 、BTC、USD 主流资产</p>`;
+				} else {
+					html =
+						`<label>system analysis]</label>
+					<p>Participation criteria： V1:1-5.V2:6-10.V3:11-15 </p>
+					<label>[participation cycle]</label>
+					<p>Experience contract：1ETH—5ETH 2% per day</p>
+					<p>Cycle 7 days 7% 1% per day</p>
+					<p>Cycle 16 days 24% 1.5% per day</p>
+					<p>30 days per day 60% 2% per day</p>
+					<p>The increase of investment in the cycle can only be carried out in the same cycle, and the change of investment cycle can only be carried out after the end of the cycle.</p>
+					<label>[Node rewards]</label>
+					<p>V1：Generation</p>
+					<p>V2：The two generation</p>
+					<p>V3：Unlimited generation</p>
+					<label>[team rewards]</label>
+					<p>Generation 50%</p>
+					<p>Two generation 20%</p>
+					<p>Three generation 10%</p>
+					<p>4-10 generation 5%</p>
+					<p>Over 11 generations 1%</p>
+					<label>[Security Fund]</label>
+					<p>All players need to start the security mechanism of 10% of the maximum amount of shares in the participation cycle, and release 10% of the previous cycle when entering the next cycle!</p>
+					<label>[Genesis Fund]</label>
+					<p>10% of the team's income will be converted into SPE ecological rights and interests pass, which will build ecology together with the developer team. Up to 1 million SPE can become the platform creator, sharing 10% of the platform dividend SPE can participate in the platform game application, through the game conversion to pa.spa, it can freely trade in the trading market, and spa can also be used in the game platform, the equity value is equal to SPE, SPE is used as fuel in the application, but the equity value will only be accumulated!</p>
+					<label>[acquisition method of equity value]</label>
+					<p>There are three ways to obtain the equity value: the first is through the market, the number of SPEs is equal to the equity value, the second is through the game, and the third is through spa exchange.</p>
+					<label>[lucky Fund]</label>
+					<p>10% of the team's revenue will enter the lucky bonus pool. Users who participate in the game and the last 100 users will enjoy 10% of the platform's dynamic revenue! The last one enjoys 10 times of the investment income, and the last two to one hundred equally share the remaining bonus pool amount!</p>
+					<label>[game application]</label>
+					<p>1：Open, fair and just game between players!</p>
+					<p>2：Open, fair and just competitive games - spade a league!</p>
+					<label>[gaming application]</label>
+					<p>1： Gambling blockchain platform
+					<p>2：Spa rights and interests pass generated by all spa players can participate in all games on the platform!</p>
+					<label>[operation and maintenance fund]</label>
+					<p>3% of the share amount will be automatically transferred to a special account, of which 2% will be used for the development and construction of ecological application, 1% will be used for the reward of the founding team, and 80% of the monthly income of ecological application will be entered into the contract for user dividends!</p>
+					<label>[award distribution]</label>
+					<p>Dividends and node rewards are paid automatically. If the amount is greater than or equal to 0.1, they will be paid. Otherwise, they will be accumulated in the account. If the amount is greater than or equal to 0.1, they will be paid again!</p>
+					<label>[Restart mechanism]</label>
+					<p>If the contract balance is 0, the restart mechanism will be started automatically. When restarting, all accounts will be set to 0, but the node relationship will not change, and a new round of game will start!</p>
+					<label>[community voting]</label>
+					<p>2.0 will launch computing mining. Platform users will use SPE as fuel through community voting. The more votes the community members participate in, the more computing power they will get and the more profits they will get! Personal income is estimated at 0.5%, and community income is estimated at 1% - 10%!</p>
+				
+					<label>[clearing mechanism]</label>
+					<p>The account is out of the game for more than 24 hours without re investment, and the equity value is zero without any dynamic income!</p>
+					<label>[exchange mechanism]</label>
+					<p>After the game is online, we will open the universal exchange according to the user's usage habits</p>
+					<p>Spa convertible eth, BTC, USD mainstream assets</p>`;
+				}
+				$(".l_rule_box").html(html);
+				setTimeout(function() {
+					mui.hideLoading();
+				}, 500);
+		
+	
+</script>
+			</body> 
+			</html>

@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Spade A</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+		<link rel="stylesheet" href="css/swiper.min.css">
+		<link rel="stylesheet" href="mui/css/mui.min.css">
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/index.css">
+		<script src="js/jquery-2.1.4.min.js"></script>
+		<script src="js/web3.min.js"></script>
+		<script src="js/truffle-contract.js"></script>
+		<script src="js/app.js"></script>	
+	</head>
+
+	<body>
+		<!-- <header class="mui-bar mui-bar-nav l_bar_top">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title"><span>Spade A</span></h1>
+		</header> -->
+		<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable">
+			<!--侧滑菜单部分-->
+			<aside id="offCanvasSide" class="mui-off-canvas-left">
+				<div id="offCanvasSideScroll" class="mui-scroll-wrapper mui-draggable">
+					<div class="mui-scroll">
+						<ul class="mui-table-view mui-table-view-chevron mui-table-view-inverted">
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right icon_gw mui-active lang_type" data-key="gw">
+									官网
+								</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right icon_rule lang_type" data-key="rule">
+									规则
+								</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right icon_about_us lang_type" data-key="about">
+									关于我们
+								</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right icon_apply lang_type" data-key="voting">
+									社区投票
+								</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right icon_notice lang_type" data-key="notice">
+									公告
+								</a>
+							</li>
+						</ul>
+					</div>
+					
+					<div class="lang_box">
+						<button type="button" class="mui-btn lang_type" data-key="language" id="language">切换英文</button>
+					</div>
+				</div>
+			</aside>
+			<!--主界面部分-->
+			<div class="mui-inner-wrap">
+
+				<div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
+					<div class="mui-scroll l_index_content">
+						<div class="l_top_box">
+							<div class="mui-content-padded">
+								<div class="l_top_nav l_clear">
+									<img id="offCanvasShow" src="img/icon/icon_mune.png">
+									<img id="myself" src="img/icon/icon_my.png">
+								</div>
+							</div>
+							<!-- 中文 -->
+							<div class="swiper-container l_swiper_img swiper_zh_img">
+								<div class="swiper-wrapper">
+									<div class="swiper-slide">
+										<img src="img/delete/WechatIMG85.jpeg" />
+									</div>
+									<div class="swiper-slide">
+										<img src="img/delete/WechatIMG90.jpeg" />
+									</div>
+									<div class="swiper-slide">
+										<img src="img/delete/WechatIMG99.jpeg" />
+									</div>
+								</div>
+							</div>
+							<!-- 英文 -->
+							<div class="swiper-container l_swiper_img swiper_en_img">
+								<div class="swiper-wrapper">
+									<div class="swiper-slide">
+										<img src="img/delete/banner1.jpg" />
+									</div>
+									<div class="swiper-slide">
+										<img src="img/delete/banner2.jpg" />
+									</div>
+									<div class="swiper-slide">
+										<img src="img/delete/banner3.jpg" />
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="mui-content-padded">
+							<div class="l_index_notice">
+								<div class="swiper-container l_swiper_notice">
+									<div class="swiper-wrapper ">
+										<!-- <div class="swiper-slide">
+											<a href="#">公告：关于通知或规则说明</a>
+										</div>
+										<div class="swiper-slide">
+											<a href="#">公告：erergdf</a>
+										</div> -->
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="mui-content-padded">
+							<div class="l_index_title lang_type" data-key="earningsIndex">
+								收益详情
+							</div>
+							<div class="l_index_profit">
+								<div class="l_index_profit_left">
+									<div class="l_index_profit_item">
+										<label id="profitToday">0</label><span>ETH</span>
+										<p class="lang_type" data-key="earningsToday">今日收益</p>
+									</div>
+									<div class="l_index_profit_item">
+										<label id="profitYesterday">0</label><span>ETH</span>
+										<p class="lang_type" data-key="earningsY">昨日收益</p>
+									</div>
+								</div>
+								<div class="l_index_profit_rigth">
+									<label id="allProfit">0</label><span>ETH</span>
+									<p class="lang_type" data-key="revenueAll">总收益</p>
+								</div>
+							</div>
+						</div>
+						<div class="mui-content-padded">
+							<div class="l_index_title lang_type" data-key="assistant">
+								理财助手
+							</div>
+							<div class="l_index_assistant">
+								<div class="l_index_assistant_purchase" id="purchase">
+									<label class="lang_type" data-key="purchase">购买</label>
+									<img src="img/icon/assistant_purchase.png" />
+								</div>
+								<div class="l_index_assistant_profit" id="profit">
+									<label class="lang_type" data-key="profit">收益</label>
+									<img src="img/icon/assistant_profit.png" />
+								</div>
+								<div class="l_index_assistant_partner" id="partner">
+									<label class="lang_type" data-key="partner">伙伴</label>
+									<img src="img/icon/assistant_partner.png" />
+								</div>
+							</div>
+						</div>
+						<div class="mui-content-padded">
+							<div class="l_index_title lang_type" data-key="fund">
+								基金投入
+							</div>
+							<div class="l_index_fund">
+								<div class="l_index_fund_box">
+									<div class="l_index_fund_item">
+										<label class="lang_type" data-key="securityFund">安保基金</label>
+										<div class="l_index_fund_content">
+											<div>
+												<label id="securityInvestment">0</label><span>ETH</span>
+												<p class="lang_type" data-key="investment">投入</p>
+											</div>
+										</div>
+									</div>
+									<div class="l_index_fund_item">
+										<label class="lang_type" data-key="genesisFund">创世基金</label>
+										<div class="l_index_fund_content">
+											<div>
+												<label id="creation">0</label><span>SPE</span>
+												<p class="lang_type" data-key="investment">投入</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="l_index_fund_box">
+									<div class="l_index_fund_item">
+										<label class="lang_type" data-key="luckyFund">幸运基金</label>
+										<div class="l_index_fund_content">
+											<div>
+												<label id="luckyInvestment">0</label><span>ETH</span>
+												<p class="lang_type" data-key="investment">投入</p>
+											</div>
+										</div>
+									</div>
+									<div class="l_index_fund_item">
+										<label class="lang_type" data-key="equityValue">权益值</label>
+										<div class="l_index_fund_content">
+											<div>
+												<label id="equity">0</label><span></span>
+												<p class="lang_type" data-key="investment">投入</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="mui-content-padded">
+							<div class="l_index_title lang_type" data-key="applications">
+								娱乐应用
+							</div>
+							<div class="l_index_assistant l_index_entertainment" id="entertainment">
+								<div class="l_index_assistant_profit" index='1'>
+									<label class="lang_type" data-key="chess"></label>
+									<img src="img/icon/chess.png" />
+								</div>
+								<div class="l_index_assistant_purchase" index='2'>
+									<label class="lang_type" data-key="gambling"></label>
+									<img src="img/icon/gambling.png" />
+								</div>
+								<div class="l_index_assistant_partner" index='3'>
+									<label class="lang_type" data-key="game"></label>
+									<img src="img/icon/game.png" />
+								</div>
+							</div>
+						</div>
+						<!-- <p class="l_qualifications">
+							Spade A 信任网络 智能<a href="https://ropsten.etherscan.io/address/0x2109137f331f3a299d6a24e9219209a2c26074db">开源合约</a>提供支持
+						</p>
+ -->
+
+					</div>
+					<!-- off-canvas backdrop -->
+					<div class="mui-off-canvas-backdrop"></div>
+				</div>
+			</div>
+		</div>
+	
+		<div id="popover" class="mui-popover l_index_popover">
+			<label class="popover_ts"></label>
+			<span class="lang_type" data-key="comingSoon">敬请期待...</span>
+			<div class="l_popover_img"></div>
+			<div class="l_index_popover_btn">
+				<button class="mui-btn lang_type" id="popoverClose" data-key="ok">好的</button>
+			</div>
+		</div>
+		<div id="popoverTwo" class="mui-popover l_index_popover">
+			<label class="popover_ts"></label>
+			<span class="lang_type" data-key="comingSoon">敬请期待...</span>
+			<div class="l_popover_img"></div>
+			<div class="l_index_popover_btn">
+				<button class="mui-btn lang_type popoverClose" id="popoverCloseTwo" data-key="ok">好的</button>
+			</div>
+		</div>
+		<div id="redeem" class="mui-popover l_index_popover l_popover_redeem">
+			<label id="cycleName">V1七天收益中</label>
+			<ul class="l_buy_after_profit_content">
+				<li>
+					<label id="profitTr">5</label><small>ETH</small>
+					<p class="lang_type" data-key="capital">投入股本</p>
+				</li>
+				<li>
+					<label id="profitSy">+0.5</label><small>ETH</small>
+					<p><small class="lang_type" data-key="today">今日收益</small><span id="profitLl">+2%</span></p>
+				</li>
+			</ul>
+			<div class="l_index_popover_btn">
+				<button class="mui-btn lang_type" id="redeemOk" data-key="redeem">赎回</button>
+				<button class="mui-btn lang_type" id="redeemNo" data-key="reinvest">复投</button>
+			</div>
+		</div>
+		<script src="js/zepto.js"></script>
+		<script src="js/init.js"></script>
+		<!-- <script src="js/language_zh.js"></script> -->
+		<script src="mui/js/mui.min.js"></script>
+		<script src="css/swiper.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			mui.init({
+				swipeBack: true
+			});
+			$(function(){
+				(function(m, $) {
+					let token = localStorage.getItem('token') || '',
+					lg = localStorage.getItem('lang_type') || 'zh'
+					m.showLoading(lg == 'zh' ? '正在加载...' : 'loading...', "div");
+					
+					$(".swiper_"+lg+"_img").addClass("active");
+					new Swiper(".swiper_"+lg+"_img", {
+						slidesPerView: 1,
+						spaceBetween: 15,
+						// autoHeight:'auto',
+						centeredSlides: true,
+						loop: true,
+						autoplay: true
+					})
+					
+				let qualifications=`<p class="l_qualifications">
+						Spade A 信任网络 智能<a href="https://cn.etherscan.com/address/0x94B6efd2b538387B05FA76eac9b4A8A150872D0B">开源合约</a>提供支持
+					</p>`;
+					if(lg != 'zh'){
+						qualifications=`<p class="l_qualifications">
+								Spade A trust network <a href="https://cn.etherscan.com/address/0x94B6efd2b538387B05FA76eac9b4A8A150872D0B">Intelligent contract </a> provides support
+							</p>`;
+					}
+					$(".l_index_content").append(qualifications);
+					
+					function indexLoad() {
+				
+						//首页数据
+						$ajax({
+							url: '/order/queryInfoByHomePage',
+							data: {
+								'token': token
+							},
+							type: 'post', //HTTP请求类型
+							success: function(d) {
+								console.log(d);
+								if (d.code == '0' || d.code == 0) {
+									let data = d.data;
+									let listImages = data.listImages || [],
+										listNotice = data.listNotice || [],
+										isRedeem = data.isRedeem; //1赎回
+				
+									let imgHtml = '',
+										notice = '';
+									document.getElementById('profitToday').innerText = data.todayProfit ? data.todayProfit : 0;
+									document.getElementById('profitYesterday').innerText = data.yesterdayProfit ? data.yesterdayProfit : 0;
+									document.getElementById('allProfit').innerText = data.allProfit ? data.allProfit : 0;
+									document.getElementById('securityInvestment').innerHTML = data.securityInvestment ? data.securityInvestment : 0;
+									//document.getElementById('securityProfit').innerHTML = data.securityProfit ? data.securityProfit : 0;
+									document.getElementById('creation').innerHTML = data.creation ? data.creation : 0;
+				
+									document.getElementById('luckyInvestment').innerHTML = data.luckyInvestment ? data.luckyInvestment : 0;
+									document.getElementById('equity').innerHTML = data.equity ? data.equity : 0;
+				
+									//轮播图
+									/*for (const item of listImages) {
+										//<img src="${item.url}" />
+										imgHtml +=
+											`<div class="swiper-slide">
+												<img src="${item.url}" alt="${item.content}"/>
+											</div>`;
+									}
+									
+									document.getElementsByClassName('l_swiper_img')[0].innerHTML =
+										`<div class="swiper-wrapper">${imgHtml}</div>`;*/
+									for (const item of listNotice) {
+										notice += `<div class="swiper-slide"><a href="${item.url?item.url:'#'}">${item.name}</a></div>`;
+									}
+									document.getElementsByClassName('l_swiper_notice')[0].innerHTML =
+										`<div class="swiper-wrapper ">${notice}</div>`;
+				
+				
+									//赎回弹出窗显示
+									if (isRedeem == 1 || isRedeem == '1') {
+										m("#redeem").popover('toggle');
+									}
+				
+									//轮播
+									// new Swiper('.l_swiper_img', {
+									// 	slidesPerView: 1.21,
+									// 	spaceBetween: 15,
+									// 	// autoHeight:'auto',
+									// 	centeredSlides: true,
+									// 	loop: true,
+									// 	autoplay: true
+									// })
+				
+									new Swiper('.l_swiper_notice', {
+										direction: 'vertical',
+										loop: true,
+										autoplay: true
+									})
+								} else {
+									m.toast(d.msg);
+								}
+							}
+						});
+					}
+				
+					if (token == '') {
+						let tokenVal = setInterval(function() {
+							token = localStorage.getItem('token') || '';
+							if (token != '') {
+								clearInterval(tokenVal);
+								indexLoad();
+							}
+						}, 500);
+					} else {
+						indexLoad();
+					}
+				
+					//去掉手势滑动
+					document.getElementsByClassName('mui-inner-wrap')[0].addEventListener('drag', function(event) {
+						event.stopPropagation();
+					});
+				
+					m('.l_qualifications').on('tap', 'a', function(e) {
+						e.preventDefault();
+						let href = $(this).attr('href');
+						location.href = href;
+					});
+				
+					let myself = document.getElementById('myself'),
+						popoverClose = document.getElementById("popoverClose"),
+						popoverCloseTwo=document.getElementById("popoverCloseTwo"),
+						purchase = document.getElementById("purchase"),
+						profit = document.getElementById("profit"),
+						partner = document.getElementById("partner");
+				
+				
+					m("#entertainment").on('tap', 'div', function() {
+						let img = ['img/gambling.png', 'img/chess.png', 'img/game.png'],
+							index = parseInt(this.getAttribute('index')) - 1;
+						document.getElementsByClassName('l_popover_img')[0].innerHTML = `<img src="${img[index]}" />`;
+						$('.popover_ts').text(lg=='zh'?'应用努力开发中':'In development');
+						m("#popover").popover('toggle');
+					});
+					//关闭弹出窗
+					popoverClose.addEventListener("tap", function() {
+						//调用隐藏/显示弹出层
+						m("#popover").popover('toggle');
+					})
+					popoverCloseTwo.addEventListener("tap", function() {
+						//调用隐藏/显示弹出层
+						m("#popoverTwo").popover('toggle');
+					})
+				
+					//主界面容器
+					//var offCanvasInner = offCanvasWrapper[0].querySelector('.mui-inner-wrap');
+					//菜单容器
+					var offCanvasSide = document.getElementById("offCanvasSide");
+				
+					//我的
+					myself.addEventListener('tap', function() {
+						m.openWindow({
+							url: 'myself.html',
+							extras: {
+								id: '100'
+							}
+						});
+					});
+					//购买
+					purchase.addEventListener('tap', function() {
+						m.openWindow({
+							url: 'buy.html'
+						});
+					});
+					//复投
+					$("#redeemNo")[0].addEventListener('tap', function() {
+						m.openWindow({
+							url: 'buy.html'
+						});
+					});
+				
+					//赎回
+					$("#redeemOk")[0].addEventListener('tap', function() {
+				          
+						//首页数据
+						$ajax({
+							url: '/user/redeem',
+							data: {
+								'token': token
+							},
+							type: 'post', //HTTP请求类型
+							success: function(d) {
+								if (d.code == '0' || d.code == 0) {
+									m("#redeem").popover('toggle');
+									// m.toast(lg == 'zh' ? '赎回成功' : 'Success');
+									App.tx(m,d.data,'1');
+								}
+							},
+						});
+					});
+					
+					$("#language")[0].addEventListener('tap', function() {
+					let lg=localStorage.getItem("lang_type") || '';
+						localStorage.setItem("lang_type",lg=='en'?'zh':'en');
+						window.location.reload();
+					});
+					
+				
+				
+					//收益
+					profit.addEventListener('tap', function() {
+						m.openWindow({
+							url: 'profit.html'
+						});
+					});
+					//伙伴
+					partner.addEventListener('tap', function() {
+						m.openWindow({
+							url: 'partner.html'
+						});
+					});
+				
+					//官网
+					m('.mui-table-view-cell').on('tap', '.icon_gw', function() {
+						m.openWindow({
+							url: 'index.html'
+						});
+					})
+					//规则
+					m('.mui-table-view-cell').on('tap', '.icon_rule', function() {
+						m.openWindow({
+							url: 'rule.html'
+						});
+					})
+				
+					//关于我们
+					m('.mui-table-view-cell').on('tap', '.icon_about_us', function() {
+						m.openWindow({
+							url: 'about.html'
+						});
+					})
+				
+					//应用
+					m('.mui-table-view-cell').on('tap', '.icon_apply', function() {
+						$('.popover_ts').text(lg == 'zh' ? '正在开发中' : 'In development');
+						$('.l_popover_img').html("");
+						m("#popover").popover('toggle');
+					})
+				
+					//公告
+					m('.mui-table-view-cell').on('tap', '.icon_notice', function() {
+						m.openWindow({
+							url: 'notice.html'
+						});
+					})
+					m('.l_index_notice').on('tap', 'a', function() {
+						m.openWindow({
+							url: 'notice.html'
+						});
+					})
+				
+				
+					//侧滑容器父节点
+					var offCanvasWrapper = mui('#offCanvasWrapper');
+					//主界面‘显示侧滑菜单’按钮的点击事件
+					document.getElementById('offCanvasShow').addEventListener('tap', function() {
+						offCanvasWrapper.offCanvas('show');
+					});
+				
+				})(mui, $);
+				
+			})
+			
+			
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>购买</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+		<link rel="stylesheet" href="mui/css/mui.min.css">
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/index.css">
+		<script src="js/jquery-2.1.4.min.js"></script>
+		<script src="js/web3.min.js"></script>
+		<script src="js/truffle-contract.js"></script>
+		<script src="js/app.js"></script>	
+	</head>
+	<body>
+		<!-- <header class="mui-bar mui-bar-nav">
+    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+    <h1 class="mui-title">购买</h1>
+</header> -->
+		<div class="mui-content">
+			<div class="mui-scroll">
+				<div class="mui-content-padded l_buy_after">
+					<label id="cycleName">V1七天收益中</label>
+					<ul class="l_buy_after_profit_content">
+						<li>
+							<label id="profitTr">5</label>
+							<small>ETH</small>
+							<p class="lang_type" data-key="capital">投入股本</p>
+						</li>
+						<li>
+							<label id="profitSy">+0.5</label>
+							<small>ETH</small>
+							<p><span class="lang_type" data-key="earnings">今日收益</span><span id="profitLl">+0%</span></p>
+						</li>
+					</ul>
+					<!-- <div class="l_buy_after_profit_day">收益第<span>1</span>天</div> -->
+				</div>
+				<div class="l_buy_experience_p"></div>
+				<div class="l_buy_box">
+					<div class="mui-content-padded l_tab_box">
+						<label class="l_tab_box_title"></label>
+						<div class="mui-segmented-control">
+							<a class="mui-control-item mui-active" href="#V1">V1</a>
+							<a class="mui-control-item" href="#V2">V2</a>
+							<a class="mui-control-item" href="#V3">V3</a>
+							<a class="mui-control-item lang_type" data-key="exp_contract" href="#experience">体验合约</a>
+						</div>
+					</div>
+					<div class="mui-content-padded l_content_box">
+						<div class="l_buy_money">
+							<ul class="l_buy_money_box">
+								<li id="reduce"><img src="img/icon/-.png"></li>
+								<li>
+									<label>
+										<span id="content">1</span>
+										<small>ETH</small>
+									</label>
+									<p class="lang_type" data-key="buy_amount">购买金额</p>
+								</li>
+								<li id="add"><img src="img/icon/+.png"></li>
+							</ul>
+							<p class="l_buy_ts_1 active">（V1：1~5ETH）</p>
+							<p class="l_buy_ts_2">（V2：6~10ETH）</p>
+							<p class="l_buy_ts_3">（V3：11~15ETH）</p>
+							<p class="l_buy_ts_4">（<span class="lang_type" data-key="exp_contract">体验合约</span>：1~5ETH）</p>
+							<p class="l_buy_ts_5 lang_type" data-key="upgrading">升级是在同周期内增加投入金额</p>
+						</div>
+						<div class="l_buy_type active">
+							<label class="l_content_title lang_type" data-key="select_cycle">选择购买周期</label>
+							<ul class="l_content_list mui-control-content mui-active" id="V1">
+							</ul>
+							<ul class="l_content_list mui-control-content" id="V2">
+							</ul>
+							<ul class="l_content_list mui-control-content" id="V3">
+							</ul>
+							<ul class="l_content_list mui-control-content" id="experience">
+							</ul>
+
+							<div class="l_btn_block">
+								<button type="button" class="mui-btn mui-btn-block lang_type" data-key="buy" id="buy">购买
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="l_btn_block l_buy_type">
+					<button type="button" class="mui-btn mui-btn-block lang_type" data-key="confirm_upgrade" id="buyUpgrade">
+						确认升级
+					</button>
+				</div>
+
+			</div>
+		</div>
+		<script src="js/zepto.js"></script>
+		<script src="mui/js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script src="js/init.js"></script>
+		<script>
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			(function(m, $) {
+				let content = $("#content"), //金额
+					tabActive = '#V1',
+					cycleId = '',
+					isEnd = true, //false没结束
+					zqDay = 0,
+					zqList = null,
+					zqGrade = '',
+					token = localStorage.getItem('token') || '',
+					lg = localStorage.getItem('lang_type') || 'zh';
+
+
+				m.showLoading(lg == 'zh' ? '正在加载...' : 'loading...', "div");
+
+				function idValue(zqGrade, zqDay) {
+					let Val = setInterval(function() {
+						if (zqList) {
+							clearInterval(Val);
+							for (let item in zqList) {
+								if (zqGrade == item) {
+									for (let d of zqList[item]) {
+										cycleId = d.id;
+										return false;
+									}
+								}
+							}
+						}
+					}, 300);
+
+				}
+
+				//周期
+				$ajax({
+					url: '/cycle/queryCycleInfo',
+					type: 'post',
+					success: function(d) {
+						console.log(d);
+						if (d.code == '0' || d.code == 0) {
+							zqList = d.data;
+							for (let item in zqList) {
+								let html = "",
+									i = 0;
+								let cycle = lg == 'zh' ? "周期" : 'Cycle',
+									days = lg == 'zh' ? '天' : 'days'
+								for (let d of zqList[item]) {
+									html +=
+										`<li data-id="${d.id}"><span>${d.name+cycle+d.cycleDay+days}</span><span>+${d.cycleFee}%</span></li>`;
+								}
+								if (item == "体验合约") {
+									item = 'experience';
+								}
+								document.getElementById(item).innerHTML = html;
+							}
+						}
+					}
+				});
+				//调数据加载页面参数与显示
+				$ajax({
+					url: '/usercycle/queryBuyCycle',
+					type: 'post',
+					data: {
+						token: token
+					},
+					success: function(d) {
+						if (d.code == '0' || d.code == 0) {
+							let data = d.data;
+							if (data) {
+								let day = data.day, //时间天
+									isEnd = data.isEnd; //是否结束 true结束
+								if (day == 1 && !isEnd) {
+
+									let cycleGrade = data.cycleGrade, //周期级别
+										h = ""; //收益提示
+									if (data.cycleGrade == 'experience') {
+										cycleGrade = lg == 'zh' ? '体验合约' : 'Experience contract';
+										h = lg == 'zh' ? `<div class="l_buy_after_profit_day">${cycleGrade}收益中</div>` :
+											`<div class="l_buy_after_profit_day">${cycleGrade} income</span></div>`;
+
+									} else {
+										h = lg == 'zh' ? `<div class="l_buy_after_profit_day">${cycleGrade}收益第<span>${data.day}</span>天</div>` :
+											`<div class="l_buy_after_profit_day">${cycleGrade}'s income day<span> ${data.day}</span></div>`;
+										let title = lg == 'zh' ? "升级" : "upgrade";
+										$(".l_tab_box_title").addClass('active').text(title);
+										$(".l_tab_box").addClass('l_tab_box_3');
+										$('.l_buy_ts_5').addClass('active').siblings().removeClass("active");
+										$(".l_buy_type").removeClass('active');
+										$('#buyUpgrade').parents('.l_buy_type').addClass('active');
+										$('.l_buy_box').addClass('active');
+										//获得周期id
+										idValue(data.cycleGrade, data.cycleDay);
+									}
+									//头部数据
+									$('#cycleName').text(data.cycleName);
+									$('#profitTr').text(data.amount ? data.amount : 0);
+									$('#profitSy').text(data.todayIncome ? '+' + data.todayIncome : 0);
+									$('#profitLl').text(data.interestRate ? '+' + (parseFloat(data.interestRate)*100) + '%' : 0);
+									$('.l_buy_after').addClass('active').append(h);
+
+								} else if (day > 1 && !isEnd) {
+									$('#cycleName').text(data.cycleName);
+									$('#profitTr').text(data.amount ? data.amount : 0);
+									$('#profitSy').text(data.todayIncome ? '+' + data.todayIncome : 0);
+									$('#profitLl').text(data.interestRate ? '+' + (parseFloat(data.interestRate)*100) + '%' : 0);
+
+									let h = '',
+										tit = '',
+										cycleGrade = data.cycleGrade; //周期级别;
+
+									if (data.cycleGrade == 'experience') {
+										h = lg == 'zh' ? `<div class="l_buy_after_profit_day">${cycleGrade}收益中</div>` :
+											`<div class="l_buy_after_profit_day">${cycleGrade} income</span></div>`;
+										tit = lg == 'zh' ? '待体验结束后可进行购买' : 'Purchase after the experience'
+
+									} else {
+										h = lg == 'zh' ? `<div class="l_buy_after_profit_day">${cycleGrade}收益第<span>${data.day}</span>天</div>` :
+											`<div class="l_buy_after_profit_day">${cycleGrade}'s income day<span>${data.day}span></div>`;
+										tit = lg == 'zh' ? '待周期束后可进行购买' : 'Purchase after cycle bundle'
+
+									}
+									$('.l_buy_experience_p').text(tit).addClass('active');
+									$('.l_buy_after').addClass('active').append(h);
+
+								} else {
+									$('#cycleName').text(data.cycleName);
+									$('#profitTr').text(data.amount ? data.amount : 0);
+									$('#profitSy').text(data.todayIncome ? '+' + data.todayIncome : 0);
+									$('#profitLl').text(data.interestRate ? '+' + data.interestRate + '%' : 0);
+									let t = lg == 'zh' ? '周期结束' : 'End of cycle';
+
+									if (data.cycleGrade == 'experience') {
+										t = lg == 'zh' ? '体验结束' : 'End of experience';
+
+									}
+									let title = lg == 'zh' ? "去购买" : "purchase";
+									$(".l_tab_box_title").addClass('active').text(title);
+									let h = '<div class="l_buy_after_profit_day l_buy_after_end">' + t + '</div>';
+									$('.l_buy_after').addClass('active').append(h);
+									$('.l_buy_box').addClass('active')
+									$('#buy').parents('.l_buy_type').addClass('active');
+								}
+							} else {
+								$('.l_buy_box').addClass('active');
+							}
+						}
+					}
+				});
+
+				//周期选择事件
+				m('.l_content_list').on('tap', 'li', function(e) {
+					e.preventDefault();
+					$('.l_content_list li').removeClass("active")
+					cycleId = $(this).addClass("active").attr('data-id');
+				});
+
+
+				//tab选择事件
+				m('.mui-segmented-control').on('tap', 'a', function(e) {
+					e.preventDefault();
+
+					const id = this.getAttribute('href');
+					let className = '';
+					tabActive = id;
+					//if (isEnd) {
+					let tit = lg == 'zh' ? '购买' : 'buy';
+					$("#buy").text(tit);
+					// let child=$(id+" li:first-child");
+					// child.addClass("active");
+					// cycleId=child.attr('data-id');
+					cycleId = '';
+					if (id == '#V1') {
+						className = '.l_buy_ts_1';
+						content.text('1');
+					} else if (id == '#V2') {
+						className = '.l_buy_ts_2';
+						content.text('6');
+					} else if (id == '#V3') {
+						className = '.l_buy_ts_3';
+						content.text('11');
+					} else {
+						tit = lg == 'zh' ? '开始体验' : 'Start Experiencing';
+						$("#buy").text(tit);
+						className = '.l_buy_ts_4';
+						content.text('1');
+					}
+					$(className).addClass('active').siblings().removeClass("active");
+					//}
+
+				});
+
+				//购买
+				m(".l_btn_block").on("tap", '#buy', function() {
+					let _that = this;
+					buttom = this;
+					m(_that).button('loading');
+					let moeny = content.text(),
+						id = cycleId;
+					if (id == "") {
+						m(this).button('reset');
+						m.toast(lg == 'zh' ? '请选择购买周期' : 'Please select purchase cycle');
+						return false;
+					}
+				     App.sendCoin(m,moeny,id);
+				});
+
+				//升级
+				m(".l_btn_block").on("tap", '#buyUpgrade', function() {
+					let moeny = content.text();
+					$ajax({
+						url: '/cycle/riseAmount',
+						data: {
+							amount: moeny,
+							buyCycleId: cycleId,
+							token: token
+						},
+						type: 'post',
+						success: function(d) {
+							if (d.code == '0' || d.code == 0) {
+								let tit = lg == 'zh' ? '升级成功' : 'Upgrade success'
+								m.toast(tit);
+							}
+						}
+					});
+				});
+
+				//减少金额
+				m('.l_buy_money_box').on('tap', '#reduce', function() {
+					let index = parseInt(content.text());
+					let tit = lg == 'zh' ? '最少购买金额为' : 'The minimum purchase amount of'
+					if (tabActive == '#V1' || tabActive == '#experience') {
+						if (index > 1) {
+							content.text(--index);
+						} else {
+							if (tabActive == '#experience')
+								m.toast(lg == 'zh' ? '体验合约' + tit + '1ETH' : tit + '体验合约 is 1ETH');
+							else
+								m.toast(lg == 'zh' ? 'V1' + tit + '1ETH' : tit + 'V1 is 1ETH');
+						}
+					} else if (tabActive == '#V2') {
+						if (index > 5) {
+							content.text(--index);
+						} else {
+							m.toast(lg == 'zh' ? 'V2' + tit + '6ETH' : tit + 'V2 is 6ETH');
+						}
+					} else if (tabActive == '#V3') {
+						if (index > 10) {
+							content.text(--index);
+						} else {
+							m.toast(lg == 'zh' ? 'V3' + tit + '10ETH' : tit + 'V3 is 10ETH');
+						}
+					}
+
+				})
+				//添加金额
+				m('.l_buy_money_box').on('tap', '#add', function() {
+					let index = parseInt(content.text());
+					let tit = lg == 'zh' ? '最多购买金额为' : 'The maximum  purchase amount of';
+					if (tabActive == '#V1' || tabActive == '#experience') {
+						if (index < 5) {
+							content.text(++index);
+						} else {
+							if (tabActive == '#experience')
+								m.toast(lg == 'zh' ? '体验合约' + tit + '5ETH' : tit + '体验合约 is 5ETH');
+							else
+								m.toast(lg == 'zh' ? 'V1' + tit + '5ETH' : tit + 'V1 is 5ETH');
+						}
+					} else if (tabActive == '#V2') {
+						if (index < 10) {
+							content.text(++index);
+						} else {
+							m.toast(lg == 'zh' ? 'V2' + tit + '10ETH' : tit + 'V2 is 10ETH');
+						}
+					} else if (tabActive == '#V3') {
+						if (index < 15) {
+							content.text(++index);
+						} else {
+							m.toast(lg == 'zh' ? 'V3' + tit + '15ETH' : tit + 'V3 is 15ETH');
+						}
+					}
+
+				})
+				/*$('.l_content_list').on('tap','li',function(){
+				    let children=this.parentNode.children;
+				    for(const item of children){
+				        item.classList.remove('active');
+				    }
+				    //this.parentNode.children.classList.remove('active')
+				    this.classList.add('active');
+				    //cycleId=this.getAttribute('data-id');
+				});*/
+			})(mui, $);
+		</script>
+	</body>
+</html>

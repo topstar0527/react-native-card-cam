@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>公告</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+		<link rel="stylesheet" href="mui/css/mui.min.css">
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/index.css">
+	</head>
+	<body>
+		<!-- <header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">规则</h1>
+		</header> -->
+		<div class="mui-content l_word_box">
+			<div class="mui-scroll">
+				<div class="l_rule_box">
+					<h3 class="l_title_content"></h3>
+					<p></p>
+				</div>
+			</div>
+		</div>
+		<script src="js/zepto.js"></script>
+		<script src="mui/js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			(function(m,$) {
+			
+			let lg = localStorage.getItem('lang_type') || 'zh';
+			mui.showLoading(lg == 'zh' ? '正在加载...' : 'loading...', "div");
+			$ajax({
+				url: '/notice/selectTallNotice',
+				type: 'post',
+				success: function(d) {
+					if (d.code == '0' || d.code == 0) {
+						let data=d.data;
+						$('.l_title_content').text(data.name);
+						$(".l_rule_box p").text(data.content);
+					} else {
+						
+					}
+				}
+			});
+			
+			})(mui,$);
+		</script>
+	</body>
+</html>

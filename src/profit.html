@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>收益</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+		<link rel="stylesheet" href="mui/css/mui.min.css">
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/index.css">
+	</head>
+	<body>
+		<!-- <header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">收益</h1>
+		</header> -->
+		<div class="mui-content">
+			<div class="mui-scroll">
+				<div class="mui-content-padded">
+					<div class="l_index_profit">
+						<div class="l_index_profit_left">
+							<div class="l_index_profit_item">
+								<label id="todayProfit">0</label><span>ETH</span>
+								<p class="lang_type" data-key="earnings">今日收益</p>
+							</div>
+							<div class="l_index_profit_item">
+								<label id="yesterdayProfit">0</label><span>ETH</span>
+								<p class="lang_type" data-key="yest_earnings">昨日收益</p>
+							</div>
+						</div>
+						<div class="l_index_profit_rigth">
+							<label id="allProfit">0</label>
+							<span>ETH</span>
+							<p class="lang_type" data-key="res_income">剩余收益</p>
+						</div>
+					</div>
+				</div>
+				<div class="mui-content-padded l_profit_tab l_tab_box">
+					<div class="mui-segmented-control">
+						<a class="mui-control-item mui-active lang_type" href="#item1" data-key="per_income" >个人收益</a>
+						<a class="mui-control-item lang_type" data-key="team_income" href="#item2">团队收益</a>
+					</div>
+				</div>
+				<div class="mui-content-padded l_profit_box mui-control-content mui-active" id="item1">
+					<ul class="l_bg_box l_bg_box_no_b l_partner_list l_partner_title">
+						<li class="lang_type" data-key="total_income">收益总额</li>
+						<li><label id="personalAll">0</label> ETH</li>
+					</ul>
+					<div class="l_partner_list_box l_profit_list_box">
+						<!-- <ul class="l_partner_list">
+						<li>
+							V1七天收益第2天
+							<p>2019-10-26 12:00</p>
+						</li>
+						<li>+0.5 ETH</li>
+					</ul> -->
+					</div>
+				</div>
+				<div class="mui-content-padded l_profit_box mui-control-content" id="item2">
+					<ul class="l_bg_box l_bg_box_no_b l_partner_list l_partner_title">
+						<li class="lang_type" data-key="total_income">收益总额</li>
+						<li><label id="teamAll">0</label> ETH</li>
+					</ul>
+					<div class="l_partner_list_box l_profit_list_box">
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/zepto.js"></script>
+		<script src="mui/js/mui.min.js"></script>
+		<script src="js/main.js"></script>
+		<script src="js/init.js"></script>
+		<script>
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			$(function(){
+				(function($) {
+					let token = localStorage.getItem('token') || '',
+					lg = localStorage.getItem('lang_type') || 'zh';
+					mui.showLoading(lg == 'zh' ? '正在加载...' : 'loading...', "div");
+					//进入页面调用数据
+					$ajax({
+						url: '/order/queryInfoByProfitPage',
+						data: {
+							'token': token
+						},
+						type: 'post', //HTTP请求类型
+						success: function(d) {
+							console.log(d);
+							if (d.code == '0' || d.code == 0) {
+								let data = d.data;
+								let personalList = data.listPersonal,
+									teamList = data.listTeam;
+								let personaHtml = '',
+									teamHtml = '';
+								document.getElementById('todayProfit').innerText = data.todayProfit ? data.todayProfit : 0;
+								document.getElementById('yesterdayProfit').innerText = data.yesterdayProfit ? data.yesterdayProfit : 0;
+								document.getElementById('allProfit').innerText = data.allProfit ? data.allProfit : 0;
+								document.getElementById('personalAll').innerText = data.personalAll ? data.personalAll : 0;
+								document.getElementById('teamAll').innerText = data.teamAll ? data.teamAll : 0;
+				
+				
+								for (const item of personalList) {
+									personaHtml +=
+										`<ul class="l_partner_list">
+											<li>
+												${item.name}
+												<p>${item.payTime}</p>
+											</li>
+											<li>${item.todayProfit} ETH</li>
+										</ul>`;
+								}
+								document.getElementsByClassName('l_profit_list_box')[0].innerHTML = personaHtml;
+								for (const item of teamList) {
+									teamHtml +=
+										`<ul class="l_partner_list">
+											<li>
+												${item.name}
+												<p>${item.payTime}</p>
+											</li>
+											<li>${item.todayProfit} ETH</li>
+										</ul>`;
+								}
+								document.getElementsByClassName('l_profit_list_box')[1].innerHTML = teamHtml;
+							}
+						}
+					});
+				})(mui);
+			});
+			
+		</script>
+	</body>
+</html>

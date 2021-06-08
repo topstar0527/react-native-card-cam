@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>我的</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+		<link rel="stylesheet" href="mui/css/mui.min.css">
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/index.css">
+	</head>
+	<body>
+		<!-- <header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">我的</h1>
+		</header> -->
+		<div class="mui-content">
+			<div class="mui-scroll">
+				<div class="mui-content-padded l_myself">
+					<div class="l_myself_day l_bg_box " >
+						<label class="lang_type" data-key="purchase">我的购买</label>
+						<div class="l_myself_day_title">
+							<label id="name"></label>
+							<span id="cycleFee"></span>
+						</div>
+						<div class="circle-box">
+							<div class="l_myself_day_type lang_type" data-key="going">进行中</div>
+							<div class="circle-left"></div>
+						</div>
+					</div>
+					<ul class="l_myself_content l_bg_box">
+						<li>
+							<label id="investmentEquity">0</label><span class="l_myself_unit">ETH</span>
+							<p class="lang_type" data-key="stock">投入股本</p>
+						</li>
+						<li>
+							<span class="l_myself_add">+</span><label id="todayProfit">0</label><span class="l_myself_unit">ETH</span>
+							<p class="lang_type" data-key="earnings">今日收益</p>
+						</li>
+						<li>
+							<span class="l_myself_add">+</span><label id="allProfit">0</label><span class="l_myself_unit">ETH</span>
+							<p class="lang_type" data-key="revenue">总收益</p>
+						</li>
+					</ul>
+				</div>
+				<div class="mui-content-padded">
+					<div class="l_index_title lang_type" data-key="invitation">
+						我的邀请
+					</div>
+					<ul class="l_myself_Invitation l_bg_box">
+						<li class="">
+							<span class="lang_type" data-key="inv_link">邀请链接</span>
+							<p id="invitationLink"></p>
+							<button type="button" class="mui-btn copyBtn lang_type" data-key="copy" data-clipboard-text=''>复制</button>
+						</li>
+						<!-- <li class="">
+						邀请码
+						<p>ZH5V56</p>
+						<button type="button" class="mui-btn copyBtn_yq" data-clipboard-text='ZH5V56'>复制</button>
+					</li> -->
+					</ul>
+					<textarea id="copy" class="l_myself_copy_content"></textarea>
+				</div>
+				<div class="l_my_bottom">
+					<div class="lang_type" data-key="wallet_address">我的钱包地址:</div>
+					<p id="address"></p>
+				</div>
+			</div>
+		</div>
+		<script src="js/zepto.js"></script>
+		<script src="mui/js/mui.min.js"></script>
+		<script src="js/clipboard.min.js"></script>
+		<script src="js/main.js"></script>
+		<script src="js/init.js"></script>
+		<script>
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+
+			(function($) {
+				let token = localStorage.getItem('token') || '',
+				 lg = localStorage.getItem('lang_type') || 'zh';
+				mui.showLoading(lg == 'zh' ? '正在加载...' : 'loading...', "div");
+				//调数据
+				$ajax({
+					url: '/user/getMyInfo?token=' + token,
+					type: 'post',
+					success: function(d) {
+						console.log(d);
+						if (d.code == '0' || d.code == 0) {
+							let data = d.data;
+							document.getElementById('invitationLink').innerText = data.shareUrl;
+							document.getElementsByClassName('copyBtn')[0].setAttribute('data-clipboard-text', data.shareUrl);
+							document.getElementById('address').innerText = data.address;
+							document.getElementById('allProfit').innerText = data.allProfit || 0;
+							document.getElementById('investmentEquity').innerText = data.investmentEquity || 0;
+							document.getElementById('todayProfit').innerText = data.todayProfit || 0;
+							document.getElementById('cycleFee').innerText = data.cycleFee ? '+' + (parseFloat(data.cycleFee)*100) + '%' : 0+"%";
+							document.getElementById('name').innerText = data.name;
+						}
+					}
+				});
+				var copyBtn = new ClipboardJS('.copyBtn'),
+					copyBtn_yq = new ClipboardJS('.copyBtn_yq');
+				copyBtn.on('success', function(e) {
+					$.toast(lg == 'zh' ? '复制成功' : 'Replication success');
+				});
+				copyBtn.on("error", function(e) {
+					//复制失败；
+					console.log(e.action)
+				});
+				copyBtn_yq.on('success', function(e) {
+					$.toast(lg == 'zh' ? '复制成功' : 'Replication success');
+				});
+				copyBtn_yq.on('error', function(e) {
+					//复制失败；
+					console.log(e.action)
+				});
+			})(mui);
+		</script>
+	</body>
+</html>
